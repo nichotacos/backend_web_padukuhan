@@ -6,6 +6,7 @@ use Illuminate\Support\ServiceProvider;
 use Carbon\Carbon;
 use Laravel\Passport\Passport;
 
+
 class AppServiceProvider extends ServiceProvider
 {
     /**

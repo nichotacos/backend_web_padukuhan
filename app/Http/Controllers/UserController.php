@@ -7,9 +7,15 @@ use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Notifications\Notifiable;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Laravel\Passport\HasApiTokens;
+
 
 class UserController extends Controller
 {
+    use HasApiTokens, Notifiable, HasFactory;
+
     // Register
     public function register(Request $request)
     {
@@ -27,7 +33,10 @@ class UserController extends Controller
             'password' => Hash::make($request->password),
         ]);
 
-        return response()->json(['message' => 'User registered successfully'], 201);
+        return response()->json([
+            'message' => 'User registered successfully',
+            'data' => $user
+        ], 201);
     }
 
     // Login
@@ -43,14 +52,15 @@ class UserController extends Controller
         }
 
         if (!Auth::attempt($request->only('email', 'password'))) {
-            return response()->json(['message' => 'Unauthorized'], 401);
+            return response()->json(['message' => 'Wrong credentials']);
         }
 
         $user = Auth::user();
-        $token = $user->createToken('LPAC');
+        $token = $user->createToken('LaravelPAC');
 
         return response()->json([
             'token' => $token,
+            'token_type' => "Bearer",
             'message' => 'Login successful',
             'data' => $user
         ], 200);
