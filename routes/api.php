@@ -9,7 +9,7 @@ use App\Http\Controllers\UserController;
 //     return $request->user();
 // })->middleware('auth:api');
 
-Route::group(['middleware' => 'auth:api'], function () {
+Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::post('/konten', [PostController::class, 'store']);
     Route::put('/konten/{id}', [PostController::class, 'update']);
     Route::delete('/konten/{id}', [PostController::class, 'destroy']);

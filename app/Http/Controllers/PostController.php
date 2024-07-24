@@ -12,8 +12,16 @@ class PostController extends Controller
     // Index
     public function index(Request $request)
     {
-        $posts = Post::query();
+        $posts = Post::all();
 
+        if ($posts->isEmpty()) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Data konten kosong',
+            ], 404);
+        }
+
+        $posts = Post::query();
         $sorted = $posts->orderBy('created_at', 'desc')->get();
 
         if ($request->has('id')) {
