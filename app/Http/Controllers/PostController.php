@@ -117,7 +117,7 @@ class PostController extends Controller
     {
         $post = Post::find($id);
 
-        Storage::disk('public')->delete('images/' . $post->image);
+        // Storage::disk('public')->delete('images/' . $post->image);
 
         $post->delete();
 
