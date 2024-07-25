@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Post;
+use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
@@ -56,16 +57,20 @@ class PostController extends Controller
 
         if ($request->hasFile('image')) {
             $image = $request->file('image');
-            $hashName = $image->hashName();
-            Storage::disk('public')->putFileAs('img', $image, $hashName);
+            // $hashName = $image->hashName();
+            // Storage::disk('public')->putFileAs('img', $image, $hashName);
+            // $cloudinaryImage = $image->storeOnCloudinary('posts');
+            // $updloadedFileUrl = $cloudinaryImage->getSecurePath();
+
+            $updloadedFileUrl = Cloudinary::upload($image->getRealPath())->getSecurePath();
         } else {
-            $hashName = null;
+            $updloadedFileUrl = null;
         }
 
         $post = Post::create([
             'title' => $request->title,
             'content' => $request->content,
-            'image' => $hashName
+            'image' => $updloadedFileUrl
         ]);
 
         return response()->json([
