@@ -57,10 +57,6 @@ class PostController extends Controller
 
         if ($request->hasFile('image')) {
             $image = $request->file('image');
-            // $hashName = $image->hashName();
-            // Storage::disk('public')->putFileAs('img', $image, $hashName);
-            // $cloudinaryImage = $image->storeOnCloudinary('posts');
-            // $updloadedFileUrl = $cloudinaryImage->getSecurePath();
 
             $updloadedFileUrl = Cloudinary::upload($image->getRealPath())->getSecurePath();
         } else {
@@ -93,16 +89,21 @@ class PostController extends Controller
             return response()->json($validator->errors(), 400);
         }
 
-        $image = $request->file('image');
-        $image->storeAs('public/images', $image->hashName());
-
         $post = Post::find($id);
 
-        Storage::disk('public')->delete('images/' . $post->image);
+        if ($request->hasFile('image')) {
+            $image = $request->file('image');
+
+            Cloudinary::destroy($post->image);
+
+            $updloadedFileUrl = Cloudinary::upload($image->getRealPath())->getSecurePath();
+        } else {
+            $updloadedFileUrl = null;
+        }
 
         $post->title = $request->title;
         $post->content = $request->content;
-        $post->image = $image->hashName();
+        $post->image = $updloadedFileUrl;
         $post->save();
 
         return response()->json([
@@ -117,7 +118,7 @@ class PostController extends Controller
     {
         $post = Post::find($id);
 
-        // Storage::disk('public')->delete('images/' . $post->image);
+        Cloudinary::destroy($post->image);
 
         $post->delete();
 
