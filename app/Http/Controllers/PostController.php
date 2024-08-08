@@ -108,8 +108,8 @@ class PostController extends Controller
                     $parsedUrl = parse_url($post->image, PHP_URL_PATH);
                     $pathInfo = pathinfo($parsedUrl);
                     $publicId = $pathInfo['filename'];
-                    Cloudinary::destroy($publicId);
                     echo $publicId;
+                    Cloudinary::destroy($publicId);
                 }
 
                 $uploadedFileUrl = Cloudinary::upload($image->getRealPath())->getSecurePath();
