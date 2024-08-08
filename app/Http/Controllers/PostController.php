@@ -89,6 +89,9 @@ class PostController extends Controller
             return response()->json($validator->errors(), 400);
         }
 
+        $title = $request->title;
+        $content = $request->content;
+
         $post = Post::find($id);
 
         if (!$post) {
@@ -102,6 +105,7 @@ class PostController extends Controller
 
         if ($request->hasFile('image')) {
             try {
+                echo "masuk file image";
                 $image = $request->file('image');
 
                 if ($post->image) {;
@@ -110,6 +114,8 @@ class PostController extends Controller
                     $publicId = $pathInfo['filename'];
                     echo $publicId;
                     Cloudinary::destroy($publicId);
+                } else {
+                    echo "image not found";
                 }
 
                 $uploadedFileUrl = Cloudinary::upload($image->getRealPath())->getSecurePath();
@@ -125,8 +131,8 @@ class PostController extends Controller
         echo $post;
         echo "before update";
 
-        $post->title = $request->title;
-        $post->content = $request->content;
+        $post->title = $title;
+        $post->content = $content;
         echo "after update";
         echo $post;
         $post->save();
