@@ -123,9 +123,12 @@ class PostController extends Controller
         }
 
         echo $post;
+        echo "before update";
 
         $post->title = $request->title;
         $post->content = $request->content;
+        echo "after update";
+        echo $post;
         $post->save();
 
         echo "final";
