@@ -123,7 +123,8 @@ class PostController extends Controller
         return response()->json([
             'status' => true,
             'message' => 'Konten berhasil diupdate',
-            'data' => $post
+            'data' => $post,
+            $uploadedFileUrl
         ], 200);
     }
 
