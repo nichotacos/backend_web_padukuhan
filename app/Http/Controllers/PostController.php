@@ -82,7 +82,7 @@ class PostController extends Controller
         $validator = Validator::make($request->all(), [
             'title' => 'string|max:255',
             'content' => 'string',
-            'image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'image' => 'image|mimes:jpeg,png,jpg,gif,svg',
         ]);
 
         if ($validator->fails()) {
@@ -102,8 +102,11 @@ class PostController extends Controller
             try {
                 $image = $request->file('image');
 
-                if ($post->image) {
-                    Cloudinary::destroy($post->image);
+                if ($post->image) {;
+                    $parsedUrl = parse_url($post->image, PHP_URL_PATH);
+                    $pathInfo = pathinfo($parsedUrl);
+                    $publicId = $pathInfo['filename'];
+                    Cloudinary::destroy($publicId);
                 }
 
                 $uploadedFileUrl = Cloudinary::upload($image->getRealPath())->getSecurePath();
