@@ -118,13 +118,18 @@ class PostController extends Controller
                 return response()->json([
                     'status' => false,
                     'message' => 'Image upload failed: ' . $e->getMessage()
-                ], 500);
+                ], 404);
             }
         }
+
+        echo $post;
 
         $post->title = $request->title;
         $post->content = $request->content;
         $post->save();
+
+        echo "final";
+        echo $post;
 
         return response()->json([
             'status' => true,
