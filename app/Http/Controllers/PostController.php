@@ -90,14 +90,31 @@ class PostController extends Controller
 
         $post = Post::find($id);
 
-        if ($request->hasFile('image')) {
-            $image = $request->file('image');
-
-            Cloudinary::destroy($post->image);
-
-            $updloadedFileUrl = Cloudinary::upload($image->getRealPath())->getSecurePath();
-            $post->image = $updloadedFileUrl;
+        if (!$post) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Post not found'
+            ], 404);
         }
+
+        if ($request->hasFile('image')) {
+            try {
+                $image = $request->file('image');
+
+                if ($post->image) {
+                    Cloudinary::destroy($post->image);
+                }
+
+                $uploadedFileUrl = Cloudinary::upload($image->getRealPath())->getSecurePath();
+                $post->image = $uploadedFileUrl;
+            } catch (\Exception $e) {
+                return response()->json([
+                    'status' => false,
+                    'message' => 'Image upload failed: ' . $e->getMessage()
+                ], 500);
+            }
+        }
+
 
         $post->title = $request->title;
         $post->content = $request->content;
