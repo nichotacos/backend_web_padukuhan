@@ -107,6 +107,7 @@ class PostController extends Controller
 
                 $uploadedFileUrl = Cloudinary::upload($image->getRealPath())->getSecurePath();
                 $post->image = $uploadedFileUrl;
+                echo $uploadedFileUrl;
             } catch (\Exception $e) {
                 return response()->json([
                     'status' => false,
@@ -114,7 +115,6 @@ class PostController extends Controller
                 ], 500);
             }
         }
-
 
         $post->title = $request->title;
         $post->content = $request->content;
@@ -124,7 +124,6 @@ class PostController extends Controller
             'status' => true,
             'message' => 'Konten berhasil diupdate',
             'data' => $post,
-            $uploadedFileUrl
         ], 200);
     }
 
