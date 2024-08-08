@@ -89,6 +89,9 @@ class PostController extends Controller
             return response()->json($validator->errors(), 400);
         }
 
+        echo "echo request all";
+        dd($request->all());
+
         $title = $request->title;
         $content = $request->content;
         echo $title;
@@ -128,6 +131,9 @@ class PostController extends Controller
                     'message' => 'Image upload failed: ' . $e->getMessage()
                 ], 404);
             }
+        } else {
+            echo "masuk else";
+            echo "ga ada image bangg";
         }
 
         echo $post;
