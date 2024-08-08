@@ -98,6 +98,8 @@ class PostController extends Controller
             ], 404);
         }
 
+        echo $post;
+
         if ($request->hasFile('image')) {
             try {
                 $image = $request->file('image');
@@ -107,6 +109,7 @@ class PostController extends Controller
                     $pathInfo = pathinfo($parsedUrl);
                     $publicId = $pathInfo['filename'];
                     Cloudinary::destroy($publicId);
+                    echo $publicId;
                 }
 
                 $uploadedFileUrl = Cloudinary::upload($image->getRealPath())->getSecurePath();
