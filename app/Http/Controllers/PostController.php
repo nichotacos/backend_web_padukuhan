@@ -96,11 +96,11 @@ class PostController extends Controller
             Cloudinary::destroy($post->image);
 
             $updloadedFileUrl = Cloudinary::upload($image->getRealPath())->getSecurePath();
+            $post->image = $updloadedFileUrl;
         }
 
         $post->title = $request->title;
         $post->content = $request->content;
-        $post->image = $updloadedFileUrl;
         $post->save();
 
         return response()->json([
