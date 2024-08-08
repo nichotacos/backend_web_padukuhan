@@ -91,6 +91,8 @@ class PostController extends Controller
 
         $title = $request->title;
         $content = $request->content;
+        echo $title;
+        echo $content;
 
         $post = Post::find($id);
 
