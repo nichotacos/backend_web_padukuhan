@@ -80,9 +80,9 @@ class PostController extends Controller
     public function update(Request $request, $id)
     {
         $validator = Validator::make($request->all(), [
-            'title' => 'required|string|max:255',
-            'content' => 'required|string',
-            'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'title' => 'string|max:255',
+            'content' => 'string',
+            'image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
 
         if ($validator->fails()) {
@@ -97,8 +97,6 @@ class PostController extends Controller
             Cloudinary::destroy($post->image);
 
             $updloadedFileUrl = Cloudinary::upload($image->getRealPath())->getSecurePath();
-        } else {
-            $updloadedFileUrl = null;
         }
 
         $post->title = $request->title;
