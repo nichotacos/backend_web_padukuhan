@@ -108,7 +108,7 @@ class PostController extends Controller
 
         echo $post;
 
-        if ($request->hasFile('image')) {
+        if ($request->image) {
             try {
                 echo "masuk file image";
                 $image = $request->file('image');
