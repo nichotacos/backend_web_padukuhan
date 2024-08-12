@@ -135,7 +135,10 @@ class PostController extends Controller
                 ], 404);
             }
         } else {
-            return response()->json($validator->errors(), 200);
+            return response()->json([
+                'status' => false,
+                'message' => 'Image not found padahal ada'
+            ], 404);
         }
 
         // echo $post;
