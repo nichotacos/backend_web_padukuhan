@@ -135,7 +135,7 @@ class PostController extends Controller
                 ], 404);
             }
         } else {
-            return response()->json($validator->errors(), 400);
+            return response()->json($validator->errors(), 200);
         }
 
         // echo $post;
