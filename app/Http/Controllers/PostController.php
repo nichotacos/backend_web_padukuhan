@@ -113,7 +113,7 @@ class PostController extends Controller
 
         if ($request->hasFile('image')) {
             try {
-                echo "masuk file image";
+                // echo "masuk file image";
                 $image = $request->file('image');
 
                 if ($post->image) {;
@@ -135,8 +135,7 @@ class PostController extends Controller
                 ], 404);
             }
         } else {
-            echo "masuk else";
-            echo "ga ada image bangg";
+            return response()->json($validator->errors(), 400);
         }
 
         // echo $post;
