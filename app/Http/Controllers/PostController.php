@@ -89,16 +89,16 @@ class PostController extends Controller
             return response()->json($validator->errors(), 400);
         }
 
-        echo "echo request all";
-        echo $request;
+        // echo "echo request all";
+        // echo $request;
 
         $title = $request->input('title');
         $content = $request->input('content');
-        $image = $request->file('image');
-        echo "echo title content";
-        echo $title;
-        echo $content;
-        echo "end echo title content";
+        // $image = $request->file('image');
+        // echo "echo title content";
+        // echo $title;
+        // echo $content;
+        // echo "end echo title content";
 
         $post = Post::find($id);
 
@@ -111,7 +111,7 @@ class PostController extends Controller
 
         echo $post;
 
-        if ($image) {
+        if ($request->hasFile('image')) {
             try {
                 echo "masuk file image";
                 $image = $request->file('image');
@@ -139,17 +139,17 @@ class PostController extends Controller
             echo "ga ada image bangg";
         }
 
-        echo $post;
-        echo "before update";
+        // echo $post;
+        // echo "before update";
 
         $post->title = $title;
         $post->content = $content;
-        echo "after update";
-        echo $post;
+        // echo "after update";
+        // echo $post;
         $post->save();
 
-        echo "final";
-        echo $post;
+        // echo "final";
+        // echo $post;
 
         return response()->json([
             'status' => true,
