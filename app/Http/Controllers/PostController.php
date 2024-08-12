@@ -109,7 +109,7 @@ class PostController extends Controller
             ], 404);
         }
 
-        echo $post;
+        // echo $post;
 
         if ($request->hasFile('image')) {
             try {
@@ -120,10 +120,10 @@ class PostController extends Controller
                     $parsedUrl = parse_url($post->image, PHP_URL_PATH);
                     $pathInfo = pathinfo($parsedUrl);
                     $publicId = $pathInfo['filename'];
-                    echo $publicId;
+                    // echo $publicId;
                     Cloudinary::destroy($publicId);
                 } else {
-                    echo "image not found";
+                    // echo "image not found";
                 }
 
                 $uploadedFileUrl = Cloudinary::upload($image->getRealPath())->getSecurePath();
