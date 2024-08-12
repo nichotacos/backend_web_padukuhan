@@ -95,8 +95,10 @@ class PostController extends Controller
         $title = $request->get('title');
         $content = $request->get('content');
         $image = $request->file('image');
+        echo "echo title content";
         echo $title;
         echo $content;
+        echo "end echo title content";
 
         $post = Post::find($id);
 
