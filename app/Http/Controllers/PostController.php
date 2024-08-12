@@ -90,7 +90,7 @@ class PostController extends Controller
         }
 
         echo "echo request all";
-        dd($request->all());
+        echo $request;
 
         $title = $request->title;
         $content = $request->content;
