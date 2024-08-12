@@ -92,8 +92,8 @@ class PostController extends Controller
         echo "echo request all";
         echo $request;
 
-        $title = $request->get('title');
-        $content = $request->get('content');
+        $title = $request->input('title');
+        $content = $request->input('content');
         $image = $request->file('image');
         echo "echo title content";
         echo $title;
