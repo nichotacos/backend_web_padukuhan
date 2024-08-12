@@ -92,8 +92,9 @@ class PostController extends Controller
         echo "echo request all";
         echo $request;
 
-        $title = $request->title;
-        $content = $request->content;
+        $title = $request->get('title');
+        $content = $request->get('content');
+        $image = $request->file('image');
         echo $title;
         echo $content;
 
@@ -108,7 +109,7 @@ class PostController extends Controller
 
         echo $post;
 
-        if ($request->image) {
+        if ($image) {
             try {
                 echo "masuk file image";
                 $image = $request->file('image');
