@@ -138,7 +138,11 @@ class PostController extends Controller
             return response()->json([
                 'status' => false,
                 'message' => 'Image not found padahal ada',
-                'data' => $request->all()
+                'data' => [
+                    'title' => $request->title,
+                    'content' => $request->content,
+                    'image' => $request->file('image')
+                ]
             ], 404);
         }
 
