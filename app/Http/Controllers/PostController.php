@@ -132,13 +132,13 @@ class PostController extends Controller
                 return response()->json([
                     'status' => false,
                     'message' => 'Image upload failed: ' . $e->getMessage(),
-                    'data' => $request->all()
                 ], 404);
             }
         } else {
             return response()->json([
                 'status' => false,
-                'message' => 'Image not found padahal ada'
+                'message' => 'Image not found padahal ada',
+                'data' => $request->all()
             ], 404);
         }
 
