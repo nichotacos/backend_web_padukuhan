@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Post;
 use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 
@@ -80,6 +81,10 @@ class PostController extends Controller
     public function update(Request $request, $id)
     {
         $post = Post::find($id);
+
+        Log::info('Request Method: ', [$request->method()]);
+        Log::info('Request Headers: ', $request->headers->all());
+        Log::info('Request Data: ', $request->all());
 
         if (!$post) {
             return response()->json([
