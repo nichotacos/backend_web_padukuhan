@@ -80,8 +80,8 @@ class PostController extends Controller
     public function update(Request $request, $id)
     {
         $validator = Validator::make($request->all(), [
-            'title' => 'string|max:255',
-            'content' => 'string',
+            'title' => 'required|string|max:255',
+            'content' => 'required|string',
             'image' => 'image|mimes:jpeg,png,jpg,gif,svg',
         ]);
 
