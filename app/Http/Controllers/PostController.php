@@ -82,23 +82,12 @@ class PostController extends Controller
         $validator = Validator::make($request->all(), [
             'title' => 'required|string|max:255',
             'content' => 'required|string',
-            'image' => 'image|mimes:jpeg,png,jpg,gif,svg',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg',
         ]);
 
         if ($validator->fails()) {
             return response()->json($validator->errors(), 400);
         }
-
-        // echo "echo request all";
-        // echo $request;
-
-        $title = $request->input('title');
-        $content = $request->input('content');
-        // $image = $request->file('image');
-        // echo "echo title content";
-        // echo $title;
-        // echo $content;
-        // echo "end echo title content";
 
         $post = Post::find($id);
 
@@ -109,21 +98,15 @@ class PostController extends Controller
             ], 404);
         }
 
-        // echo $post;
-
         if ($request->hasFile('image')) {
             try {
-                // echo "masuk file image";
                 $image = $request->file('image');
 
-                if ($post->image) {;
+                if ($post->image) {
                     $parsedUrl = parse_url($post->image, PHP_URL_PATH);
                     $pathInfo = pathinfo($parsedUrl);
                     $publicId = $pathInfo['filename'];
-                    // echo $publicId;
                     Cloudinary::destroy($publicId);
-                } else {
-                    // echo "image not found";
                 }
 
                 $uploadedFileUrl = Cloudinary::upload($image->getRealPath())->getSecurePath();
@@ -132,33 +115,13 @@ class PostController extends Controller
                 return response()->json([
                     'status' => false,
                     'message' => 'Image upload failed: ' . $e->getMessage(),
-                ], 404);
+                ], 500);
             }
-        } else {
-            return response()->json([
-                'status' => false,
-                'message' => 'Image not found padahal ada',
-                'data' => [
-                    'title' => $request->title,
-                    'content' => $request->content,
-                    'image' => $request->file('image'),
-                    'title_input' => $request->input('title'),
-                    'content_input' => $request->input('content'),
-                ]
-            ], 404);
         }
 
-        // echo $post;
-        // echo "before update";
-
-        $post->title = $title;
-        $post->content = $content;
-        // echo "after update";
-        // echo $post;
+        $post->title = $request->input('title');
+        $post->content = $request->input('content');
         $post->save();
-
-        // echo "final";
-        // echo $post;
 
         return response()->json([
             'status' => true,
@@ -166,6 +129,7 @@ class PostController extends Controller
             'data' => $post,
         ], 200);
     }
+
 
     // Delete
     public function destroy($id)
