@@ -79,6 +79,15 @@ class PostController extends Controller
     // Update
     public function update(Request $request, $id)
     {
+        $post = Post::find($id);
+
+        if (!$post) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Post not found'
+            ], 404);
+        }
+
         $validator = Validator::make($request->all(), [
             'title' => 'required|string|max:255',
             'content' => 'required|string',
@@ -87,15 +96,6 @@ class PostController extends Controller
 
         if ($validator->fails()) {
             return response()->json($validator->errors(), 400);
-        }
-
-        $post = Post::find($id);
-
-        if (!$post) {
-            return response()->json([
-                'status' => false,
-                'message' => 'Post not found'
-            ], 404);
         }
 
         if ($request->hasFile('image')) {
