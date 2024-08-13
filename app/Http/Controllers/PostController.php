@@ -131,7 +131,8 @@ class PostController extends Controller
             } catch (\Exception $e) {
                 return response()->json([
                     'status' => false,
-                    'message' => 'Image upload failed: ' . $e->getMessage()
+                    'message' => 'Image upload failed: ' . $e->getMessage(),
+                    'data' => $request->all()
                 ], 404);
             }
         } else {
