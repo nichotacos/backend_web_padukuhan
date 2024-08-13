@@ -141,7 +141,9 @@ class PostController extends Controller
                 'data' => [
                     'title' => $request->title,
                     'content' => $request->content,
-                    'image' => $request->file('image')
+                    'image' => $request->file('image'),
+                    'title_input' => $request->input('title'),
+                    'content_input' => $request->input('content'),
                 ]
             ], 404);
         }
