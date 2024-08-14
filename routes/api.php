@@ -11,7 +11,7 @@ use App\Http\Controllers\UserController;
 
 Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::post('/konten', [PostController::class, 'store']);
-    Route::put('/konten/{id}', [PostController::class, 'update']);
+    Route::post('/konten/{id}', [PostController::class, 'update']);
     Route::delete('/konten/{id}', [PostController::class, 'destroy']);
 });
 
